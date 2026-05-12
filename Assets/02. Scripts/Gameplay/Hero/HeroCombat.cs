@@ -2,14 +2,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(HeroMovement))]
 [RequireComponent(typeof(UnitRuntimeStats))]
+[RequireComponent(typeof(UnitTargetSensor2D))]
 public class HeroCombat : MonoBehaviour
 {
-    [SerializeField] private LayerMask _enemyLayerMask;
     [SerializeField] private string _currentMode;
     [SerializeField] private string _currentTargetName;
 
     private HeroMovement _movement;
     private UnitRuntimeStats _stats;
+    private UnitTargetSensor2D _sensor;
     private Transform _chaseTarget;
     private float _attackTimer;
 
@@ -17,6 +18,7 @@ public class HeroCombat : MonoBehaviour
     {
         _movement = GetComponent<HeroMovement>();
         _stats = GetComponent<UnitRuntimeStats>();
+        _sensor = GetComponent<UnitTargetSensor2D>();
     }
 
     private void Update()
@@ -38,7 +40,7 @@ public class HeroCombat : MonoBehaviour
             return;
         }
 
-        Transform autoTarget = FindNearestEnemyInRange();
+        Transform autoTarget = _sensor.FindNearestTarget(_stats.AttackRange);
 
         if (autoTarget == null)
         {
@@ -84,31 +86,6 @@ public class HeroCombat : MonoBehaviour
         TryAttack(_chaseTarget);
     }
 
-    private Transform FindNearestEnemyInRange()
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _stats.AttackRange, _enemyLayerMask);
-        Transform nearestTarget = null;
-        float nearestDistance = float.MaxValue;
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            Transform target = GetDamageableTransform(hits[i]);
-
-            if (IsInvalidTarget(target))
-                continue;
-
-            float distance = (target.position - transform.position).sqrMagnitude;
-
-            if (distance >= nearestDistance)
-                continue;
-
-            nearestDistance = distance;
-            nearestTarget = target;
-        }
-
-        return nearestTarget;
-    }
-
     private void TryAttack(Transform target)
     {
         if (_attackTimer > 0f)
@@ -137,13 +114,5 @@ public class HeroCombat : MonoBehaviour
     {
         _currentMode = mode;
         _currentTargetName = target != null ? target.name : string.Empty;
-    }
-
-    private Transform GetDamageableTransform(Collider2D hit)
-    {
-        IDamageable damageable = hit.GetComponentInParent<IDamageable>();
-        MonoBehaviour damageableBehaviour = damageable as MonoBehaviour;
-
-        return damageableBehaviour != null ? damageableBehaviour.transform : hit.transform;
     }
 }

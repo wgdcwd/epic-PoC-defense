@@ -1,20 +1,21 @@
 using UnityEngine;
 
-[RequireComponent(typeof(HeroMovement))]
+[RequireComponent(typeof(HeroController))]
 public class HeroSelectable : MonoBehaviour
 {
     [SerializeField] private GameObject _selectionIndicator;
 
-    private HeroMovement _movement;
+    private HeroController _controller;
 
     [SerializeField] private bool _isSelected;
 
-    public HeroMovement Movement => _movement;
+    public HeroController Controller => _controller;
+    public HeroMovement Movement => _controller.Movement;
     public bool IsSelected => _isSelected;
 
     private void Awake()
     {
-        _movement = GetComponent<HeroMovement>();
+        _controller = GetComponent<HeroController>();
         SetSelected(false);
     }
 

@@ -76,28 +76,16 @@ public class HeroCommandSystem : MonoBehaviour
         for (int i = 0; i < selectedHeroes.Count; i++)
         {
             HeroSelectable hero = selectedHeroes[i];
-            HeroCombat combat = hero.GetComponent<HeroCombat>();
-
-            if (combat != null)
-                combat.ClearChaseTarget();
-
             int slotIndex = FindNearestOpenSlot(hero.transform.position);
             _assignedSlotIndices.Add(slotIndex);
-            hero.Movement.MoveTo(_formationSlots[slotIndex]);
+            hero.Controller.MoveTo(_formationSlots[slotIndex]);
         }
     }
 
     private void CommandSelectedHeroesToAttack(IReadOnlyList<HeroSelectable> selectedHeroes, Transform enemyTarget)
     {
         for (int i = 0; i < selectedHeroes.Count; i++)
-        {
-            HeroCombat combat = selectedHeroes[i].GetComponent<HeroCombat>();
-
-            if (combat == null)
-                continue;
-
-            combat.SetChaseTarget(enemyTarget);
-        }
+            selectedHeroes[i].Controller.AttackTarget(enemyTarget);
     }
 
     private Transform GetEnemyUnderPointer()
