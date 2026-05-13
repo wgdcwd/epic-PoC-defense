@@ -9,6 +9,7 @@ public class HeroCommandSystem : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private MoveCommandMarker _moveCommandMarker;
     [SerializeField] private LayerMask _enemyLayerMask;
+    [SerializeField] private LayerMask _interactableLayerMask = ~0;
     [SerializeField] private float _formationSpacing = 1.1f;
 
     private HeroSelectionSystem _selectionSystem;
@@ -58,6 +59,14 @@ public class HeroCommandSystem : MonoBehaviour
             return;
         }
 
+        IHeroInteractable interactable = GetInteractableUnderPointer();
+
+        if (interactable != null)
+        {
+            CommandNearestHeroToInteract(selectedHeroes, interactable);
+            return;
+        }
+
         MoveSelectedHeroesToPointer(selectedHeroes);
     }
 
@@ -103,6 +112,38 @@ public class HeroCommandSystem : MonoBehaviour
             return null;
 
         return damageableBehaviour.transform;
+    }
+
+    private IHeroInteractable GetInteractableUnderPointer()
+    {
+        Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity, _interactableLayerMask);
+
+        if (hit.collider == null)
+            return null;
+
+        return hit.collider.GetComponentInParent<IHeroInteractable>();
+    }
+
+    private void CommandNearestHeroToInteract(IReadOnlyList<HeroSelectable> selectedHeroes, IHeroInteractable interactable)
+    {
+        HeroSelectable nearestHero = null;
+        float nearestDistance = float.MaxValue;
+
+        for (int i = 0; i < selectedHeroes.Count; i++)
+        {
+            HeroSelectable hero = selectedHeroes[i];
+            float distance = (hero.transform.position - interactable.Transform.position).sqrMagnitude;
+
+            if (distance >= nearestDistance)
+                continue;
+
+            nearestDistance = distance;
+            nearestHero = hero;
+        }
+
+        if (nearestHero != null)
+            nearestHero.Controller.InteractWith(interactable);
     }
 
     private void BuildFormationSlots(Vector2 destination, int unitCount)

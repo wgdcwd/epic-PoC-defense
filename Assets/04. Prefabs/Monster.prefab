@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3917001374113237519}
   - component: {fileID: 5817867806912386742}
   - component: {fileID: 3753768536447167122}
+  - component: {fileID: 432115601740365019}
   m_Layer: 8
   m_Name: Monster
   m_TagString: Untagged
@@ -177,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa0a16542a058043ad5a81b88a2d7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterController
+  _defenseBase: {fileID: 0}
   _currentState: 
   _currentTargetName: 
 --- !u!114 &2878847221195864678
@@ -287,3 +289,23 @@ MonoBehaviour:
   _stopAtEnd: 1
   _currentWaypointIndex: 0
   _isPathComplete: 0
+  _hasSelectedWaypoint: 0
+--- !u!114 &432115601740365019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953276888773552606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6430eac5edc8d449f42c5b328c20cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterReward
+  _moneyReward: 10
+  _experienceReward: 25
+  _experienceShareRadius: 10
+  _splitExperienceBetweenHeroes: 1
+  _heroLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
