@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DefenseBase : MonoBehaviour, IDamageable
@@ -10,9 +11,12 @@ public class DefenseBase : MonoBehaviour, IDamageable
     public float MaxHealth => _maxHealth;
     public bool IsDestroyed => _isDestroyed;
 
+    public event Action<DefenseBase> Destroyed;
+
     private void Awake()
     {
         _currentHealth = _maxHealth;
+        EnsureGameOverController();
     }
 
     public void TakeDamage(float damage)
@@ -26,6 +30,29 @@ public class DefenseBase : MonoBehaviour, IDamageable
         _currentHealth = Mathf.Max(0f, _currentHealth - damage);
 
         if (_currentHealth <= 0f)
-            _isDestroyed = true;
+            HandleDestroyed();
+    }
+
+    private void HandleDestroyed()
+    {
+        if (_isDestroyed)
+            return;
+
+        _isDestroyed = true;
+        Destroyed?.Invoke(this);
+    }
+
+    private void EnsureGameOverController()
+    {
+        GameOverController controller = FindFirstObjectByType<GameOverController>(FindObjectsInactive.Include);
+
+        if (controller != null)
+        {
+            controller.SetDefenseBase(this);
+            return;
+        }
+
+        controller = gameObject.AddComponent<GameOverController>();
+        controller.SetDefenseBase(this);
     }
 }
