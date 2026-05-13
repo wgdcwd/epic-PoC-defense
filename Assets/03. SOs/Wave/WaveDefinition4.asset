@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f247c52df58af349b95dec9745f13d5, type: 3}
-  m_Name: WaveDefinition
+  m_Name: WaveDefinition4
   m_EditorClassIdentifier: Assembly-CSharp::WaveDefinition
   _delayFromPreviousWave: 20
   _groups:
   - _monsterPrefab: {fileID: 3987945879810169693, guid: 61c3bfee08fb1d643b7bea344f907946, type: 3}
-    _count: 5
-    _spawnInterval: 1
+    _count: 20
+    _spawnInterval: 0.5
     _spawnPointIndex: 0
   - _monsterPrefab: {fileID: 3987945879810169693, guid: 61c3bfee08fb1d643b7bea344f907946, type: 3}
-    _count: 7
-    _spawnInterval: 2
+    _count: 20
+    _spawnInterval: 0.5
     _spawnPointIndex: 1
-  - _monsterPrefab: {fileID: 3987945879810169693, guid: 61c3bfee08fb1d643b7bea344f907946, type: 3}
-    _count: 9
-    _spawnInterval: 3
-    _spawnPointIndex: 2
