@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5923456866287157913}
   - component: {fileID: 3917001374113237519}
   - component: {fileID: 5817867806912386742}
+  - component: {fileID: 3753768536447167122}
   m_Layer: 8
   m_Name: Monster
   m_TagString: Untagged
@@ -269,3 +270,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _detectionRange: 5
+--- !u!114 &3753768536447167122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953276888773552606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cf086e18e59fa48a4cf2a9c5938847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterPathFollower
+  _path: {fileID: 0}
+  _waypointReachDistance: 0.2
+  _stopAtEnd: 1
+  _currentWaypointIndex: 0
+  _isPathComplete: 0

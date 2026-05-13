@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(MonsterMovement))]
@@ -8,6 +9,8 @@ public class MonsterDeathHandler : MonoBehaviour, IDeathHandler
     private MonsterMovement _movement;
     private MonsterController _controller;
     private MonsterCombat _combat;
+
+    public event Action<MonsterDeathHandler> Died;
 
     private void Awake()
     {
@@ -30,6 +33,7 @@ public class MonsterDeathHandler : MonoBehaviour, IDeathHandler
         if (_combat != null)
             _combat.enabled = false;
 
+        Died?.Invoke(this);
         gameObject.SetActive(false);
     }
 }

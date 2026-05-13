@@ -4,8 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(UnitRuntimeStats))]
 [RequireComponent(typeof(MonsterCombat))]
 [RequireComponent(typeof(UnitTargetSensor2D))]
+[RequireComponent(typeof(MonsterPathFollower))]
 public class MonsterController : MonoBehaviour
 {
+    [SerializeField] private DefenseBase _defenseBase;
     [SerializeField] private string _currentState;
     [SerializeField] private string _currentTargetName;
 
@@ -13,6 +15,7 @@ public class MonsterController : MonoBehaviour
     private UnitRuntimeStats _stats;
     private MonsterCombat _combat;
     private UnitTargetSensor2D _sensor;
+    private MonsterPathFollower _pathFollower;
     private Transform _targetHero;
 
     private void Awake()
@@ -21,6 +24,10 @@ public class MonsterController : MonoBehaviour
         _stats = GetComponent<UnitRuntimeStats>();
         _combat = GetComponent<MonsterCombat>();
         _sensor = GetComponent<UnitTargetSensor2D>();
+        _pathFollower = GetComponent<MonsterPathFollower>();
+
+        if (_defenseBase == null)
+            _defenseBase = FindFirstObjectByType<DefenseBase>();
     }
 
     private void Update()
@@ -32,24 +39,58 @@ public class MonsterController : MonoBehaviour
 
         if (_targetHero == null)
         {
-            _movement.Stop();
-            SetDebugState("Idle", null);
+            TickBaseOrPath();
             return;
         }
 
+        TickTarget("ChaseHero", "AttackHero", _targetHero);
+    }
+
+    private void TickBaseOrPath()
+    {
+        if (_pathFollower.IsPathComplete || !_pathFollower.HasPath)
+        {
+            if (_defenseBase == null || _defenseBase.IsDestroyed)
+            {
+                _movement.Stop();
+                SetDebugState("Idle", null);
+                return;
+            }
+
+            TickTarget("MoveToBase", "AttackBase", _defenseBase.transform);
+            return;
+        }
+
+        _pathFollower.TickPath();
+        SetDebugState("FollowPath", null);
+    }
+
+    private void TickTarget(string moveState, string attackState, Transform target)
+    {
         float attackRange = _stats.AttackRange;
-        float sqrDistance = (_targetHero.position - transform.position).sqrMagnitude;
+        float sqrDistance = (target.position - transform.position).sqrMagnitude;
 
         if (sqrDistance > attackRange * attackRange)
         {
-            _movement.MoveTo(_targetHero.position);
-            SetDebugState("ChaseHero", _targetHero);
+            if (!IsDefenseBaseTarget(target))
+                _pathFollower.ReleasePath();
+
+            _movement.MoveTo(target.position);
+            SetDebugState(moveState, target);
             return;
         }
 
+        if (!IsDefenseBaseTarget(target))
+            _pathFollower.ReleasePath();
+
         _movement.Stop();
-        SetDebugState("AttackHero", _targetHero);
-        _combat.Attack(_targetHero);
+        SetDebugState(attackState, target);
+        _combat.Attack(target);
+    }
+
+    private bool IsDefenseBaseTarget(Transform target)
+    {
+        return _defenseBase != null && target == _defenseBase.transform;
     }
 
     private void UpdateTarget()

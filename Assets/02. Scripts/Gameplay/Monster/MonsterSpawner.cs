@@ -3,6 +3,7 @@ using UnityEngine;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private MonsterController _monsterPrefab;
+    [SerializeField] private MonsterPath _path;
     [SerializeField] private bool _spawnOnStart = true;
     [SerializeField] private int _spawnCount = 1;
     [SerializeField] private float _spawnSpacing = 1.2f;
@@ -23,7 +24,11 @@ public class MonsterSpawner : MonoBehaviour
         for (int i = 0; i < _spawnCount; i++)
         {
             Vector3 offset = new Vector3(i * _spawnSpacing, 0f, 0f);
-            Instantiate(_monsterPrefab, transform.position + offset, transform.rotation);
+            MonsterController monster = Instantiate(_monsterPrefab, transform.position + offset, transform.rotation);
+            MonsterPathFollower pathFollower = monster.GetComponent<MonsterPathFollower>();
+
+            if (pathFollower != null)
+                pathFollower.SetPath(_path);
         }
     }
 }

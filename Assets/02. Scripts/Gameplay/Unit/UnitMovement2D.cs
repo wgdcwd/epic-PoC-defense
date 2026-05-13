@@ -62,6 +62,9 @@ public class UnitMovement2D : MonoBehaviour
 
     public void MoveTo(Vector2 destination)
     {
+        if (_hasDestination && (_destination - destination).sqrMagnitude <= 0.0001f)
+            return;
+
         _destination = destination;
         _hasDestination = true;
         _blockedTimer = 0f;
