@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
+  m_Name: leggings
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
+  _displayName: "\uD5F7\uBA67"
+  _equipmentType: 1
+  _iconSprite: {fileID: -2750714370920867751, guid: 21ae11730ac2c004595f84595e0c92c4, type: 3}
+  _worldSprite: {fileID: -2750714370920867751, guid: 21ae11730ac2c004595f84595e0c92c4, type: 3}
+  _statModifier:
+    MaxHealth: 50
+    AttackPower: 0
+    Defense: 3
+    AttackRange: 0
+    AttackCooldownReduction: 0

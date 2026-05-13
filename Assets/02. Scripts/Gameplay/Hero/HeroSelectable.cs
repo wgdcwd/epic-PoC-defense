@@ -21,6 +21,9 @@ public class HeroSelectable : MonoBehaviour
 
     public void SetSelected(bool isSelected)
     {
+        if (_controller != null && !_controller.IsRecruited)
+            isSelected = false;
+
         _isSelected = isSelected;
 
         if (_selectionIndicator != null)

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
-  m_Name: ring
+  m_Name: Helmet
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
-  _displayName: "\uBC18\uC9C0"
-  _equipmentType: 2
-  _iconSprite: {fileID: -2532087816333192471, guid: e15e1b1ffef17df448a3c6fa3004484c, type: 3}
-  _worldSprite: {fileID: -2532087816333192471, guid: e15e1b1ffef17df448a3c6fa3004484c, type: 3}
+  _displayName: "\uD5F7\uBA67"
+  _equipmentType: 1
+  _iconSprite: {fileID: -4548992743620234918, guid: ad5815e30058611428da31294af2ddd6, type: 3}
+  _worldSprite: {fileID: -4548992743620234918, guid: ad5815e30058611428da31294af2ddd6, type: 3}
   _statModifier:
-    MaxHealth: 5
-    AttackPower: 1
-    Defense: 1
-    AttackRange: 1
-    AttackCooldownReduction: 1
+    MaxHealth: 20
+    AttackPower: 0
+    Defense: 0
+    AttackRange: 3
+    AttackCooldownReduction: 0

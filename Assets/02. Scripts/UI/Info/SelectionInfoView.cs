@@ -153,7 +153,7 @@ public class SelectionInfoView : MonoBehaviour
         UnitRuntimeStats stats = hero.Stats;
         HeroLevel level = hero.Level;
 
-        SetTitle(hero.name);
+        SetTitle(hero.DisplayName);
         SetBody(
             "Hero\n" +
             "Level: " + level.Level + "\n" +

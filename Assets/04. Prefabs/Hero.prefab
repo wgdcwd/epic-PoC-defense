@@ -111,6 +111,9 @@ GameObject:
   - component: {fileID: 5274144670582329454}
   - component: {fileID: 8708928355699170560}
   - component: {fileID: 5910725800378933442}
+  - component: {fileID: 6085010868719041190}
+  - component: {fileID: 5416839841152136254}
+  - component: {fileID: 6931925014470802068}
   m_Layer: 7
   m_Name: Hero
   m_TagString: Untagged
@@ -269,6 +272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8015823da773cf843bcb59a27d352c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeroController
+  _definition: {fileID: 11400000, guid: d0e1c6cfdc9ba3f4eaf89e692782a482, type: 2}
+  _startsRecruited: 1
+  _isRecruited: 1
 --- !u!114 &6399841564444328066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a8d457c90204240943132a9f88a6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitRuntimeStats
+  _definition: {fileID: 11400000, guid: d0e1c6cfdc9ba3f4eaf89e692782a482, type: 2}
   _maxHealth: 150
   _attackPower: 10
   _defense: 0
@@ -333,6 +340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709ef737f92f97d46b05a71ce5e7361b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeroCombat
+  _attackDefinition: {fileID: 11400000, guid: f3cf3cd7135308f40a712f7551cc60a8, type: 2}
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   _currentMode: 
   _currentTargetName: 
 --- !u!114 &5274144670582329454
@@ -376,3 +387,53 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _detectionRange: 5
+--- !u!114 &6085010868719041190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4349156606877060648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3b34307be802c42aa9d5062b7c0efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroLevel
+  _level: 1
+  _currentExperience: 0
+  _baseExperienceToLevelUp: 100
+  _experienceIncreasePerLevel: 50
+  _maxHealthPerLevel: 10
+  _attackPowerPerLevel: 2
+  _defensePerLevel: 0.5
+  _attackRangePerLevel: 0
+  _attackCooldownReductionPerLevel: 0.02
+--- !u!114 &5416839841152136254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4349156606877060648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4742254c4b3e8a54b8497fdf6bb4a20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroEquipment
+  _weapon: {fileID: 0}
+  _armor: {fileID: 0}
+  _accessory: {fileID: 0}
+--- !u!114 &6931925014470802068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4349156606877060648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ceb3a8da3b8cfa4ca24f050f4b4aade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroInteractor
+  _interactRange: 0.35
+  _currentInteractableName: 

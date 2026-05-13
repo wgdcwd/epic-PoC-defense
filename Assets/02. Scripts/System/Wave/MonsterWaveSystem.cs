@@ -16,6 +16,10 @@ public class MonsterWaveSystem : MonoBehaviour
     public float NextWaveTimer => _nextWaveTimer;
     public int AliveMonsterCount => _aliveMonsterCount;
     public bool IsRunning => _isRunning;
+    public bool HasNextWave => HasNextWaveInternal();
+    public int CurrentWaveNumber => Mathf.Max(0, _currentWaveIndex + 1);
+    public int NextWaveNumber => HasNextWave ? _currentWaveIndex + 2 : 0;
+    public int TotalWaveCount => _waves != null ? _waves.Length : 0;
 
     private void Start()
     {
@@ -28,7 +32,7 @@ public class MonsterWaveSystem : MonoBehaviour
         if (!_isRunning)
             return;
 
-        if (!HasNextWave())
+        if (!HasNextWaveInternal())
             return;
 
         _nextWaveTimer -= Time.deltaTime;
@@ -123,14 +127,14 @@ public class MonsterWaveSystem : MonoBehaviour
         return _spawnPoints[index];
     }
 
-    private bool HasNextWave()
+    private bool HasNextWaveInternal()
     {
         return _waves != null && _currentWaveIndex + 1 < _waves.Length;
     }
 
     private float GetNextWaveDelay()
     {
-        if (!HasNextWave())
+        if (!HasNextWaveInternal())
             return 0f;
 
         WaveDefinition nextWave = _waves[_currentWaveIndex + 1];

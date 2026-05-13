@@ -71,6 +71,11 @@ public class UnitTargetSensor2D : MonoBehaviour
 
         UnitRuntimeStats stats = target.GetComponentInParent<UnitRuntimeStats>();
 
-        return stats != null && stats.IsDead;
+        if (stats != null && stats.IsDead)
+            return true;
+
+        HeroController hero = target.GetComponentInParent<HeroController>();
+
+        return hero != null && !hero.IsRecruited;
     }
 }

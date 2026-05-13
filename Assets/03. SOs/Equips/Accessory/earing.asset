@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
+  m_Name: earing
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
+  _displayName: "\uBC18\uC9C0"
+  _equipmentType: 2
+  _iconSprite: {fileID: -4843482919042251360, guid: d8b66832760c17c428cea33069c21b4b, type: 3}
+  _worldSprite: {fileID: -4843482919042251360, guid: d8b66832760c17c428cea33069c21b4b, type: 3}
+  _statModifier:
+    MaxHealth: 0
+    AttackPower: 0
+    Defense: 0
+    AttackRange: 5
+    AttackCooldownReduction: 0.1

@@ -17,6 +17,7 @@ public class UnitRuntimeStats : MonoBehaviour
     public float Defense => _defense;
     public float AttackRange => _attackRange;
     public float AttackCooldown => _attackCooldown;
+    public UnitDefinition Definition => _definition;
     public bool IsDead => _currentHealth <= 0f;
 
     private void Awake()
@@ -24,6 +25,16 @@ public class UnitRuntimeStats : MonoBehaviour
         if (_definition != null)
             ApplyDefinition(_definition);
 
+        _currentHealth = _maxHealth;
+    }
+
+    public void InitializeFromDefinition(UnitDefinition definition)
+    {
+        if (definition == null)
+            return;
+
+        _definition = definition;
+        ApplyDefinition(_definition);
         _currentHealth = _maxHealth;
     }
 

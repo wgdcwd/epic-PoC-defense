@@ -5,20 +5,25 @@ using UnityEngine;
 [RequireComponent(typeof(UnitTargetSensor2D))]
 public class HeroCombat : MonoBehaviour
 {
+    [SerializeField] private HeroAttackDefinition _attackDefinition;
+    [SerializeField] private LayerMask _targetLayerMask;
     [SerializeField] private string _currentMode;
     [SerializeField] private string _currentTargetName;
 
     private HeroMovement _movement;
     private UnitRuntimeStats _stats;
     private UnitTargetSensor2D _sensor;
+    private HeroController _hero;
     private Transform _chaseTarget;
     private float _attackTimer;
+    private bool _missingAttackDefinitionReported;
 
     private void Awake()
     {
         _movement = GetComponent<HeroMovement>();
         _stats = GetComponent<UnitRuntimeStats>();
         _sensor = GetComponent<UnitTargetSensor2D>();
+        _hero = GetComponent<HeroController>();
     }
 
     private void Update()
@@ -40,7 +45,7 @@ public class HeroCombat : MonoBehaviour
             return;
         }
 
-        Transform autoTarget = _sensor.FindNearestTarget(_stats.AttackRange);
+        Transform autoTarget = _sensor.FindNearestTarget(GetAttackRange());
 
         if (autoTarget == null)
         {
@@ -63,6 +68,13 @@ public class HeroCombat : MonoBehaviour
         _chaseTarget = null;
     }
 
+    public void SetAttackDefinition(HeroAttackDefinition attackDefinition)
+    {
+        _attackDefinition = attackDefinition;
+        _attackTimer = 0f;
+        _missingAttackDefinitionReported = false;
+    }
+
     private void TickChaseTarget()
     {
         if (IsInvalidTarget(_chaseTarget))
@@ -71,7 +83,7 @@ public class HeroCombat : MonoBehaviour
             return;
         }
 
-        float attackRange = _stats.AttackRange;
+        float attackRange = GetAttackRange();
         float sqrDistance = (_chaseTarget.position - transform.position).sqrMagnitude;
 
         if (sqrDistance > attackRange * attackRange)
@@ -91,13 +103,39 @@ public class HeroCombat : MonoBehaviour
         if (_attackTimer > 0f)
             return;
 
-        IDamageable damageable = target.GetComponentInParent<IDamageable>();
+        if (_attackDefinition == null)
+        {
+            ReportMissingAttackDefinition();
+            return;
+        }
 
-        if (damageable == null)
+        HeroAttackContext context = new HeroAttackContext
+        {
+            Hero = _hero,
+            Stats = _stats,
+            Target = target,
+            TargetLayerMask = _targetLayerMask
+        };
+
+        _attackDefinition.Execute(context);
+        _attackTimer = _attackDefinition.GetCooldown(_stats);
+    }
+
+    private float GetAttackRange()
+    {
+        if (_attackDefinition == null)
+            return _stats.AttackRange;
+
+        return _attackDefinition.GetRange(_stats);
+    }
+
+    private void ReportMissingAttackDefinition()
+    {
+        if (_missingAttackDefinitionReported)
             return;
 
-        damageable.TakeDamage(_stats.AttackPower);
-        _attackTimer = _stats.AttackCooldown;
+        _missingAttackDefinitionReported = true;
+        Debug.LogError($"{nameof(HeroCombat)} on {name} requires a {nameof(HeroAttackDefinition)}.", this);
     }
 
     private bool IsInvalidTarget(Transform target)

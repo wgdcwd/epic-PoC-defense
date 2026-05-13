@@ -68,6 +68,25 @@ public class HeroSelectionSystem : MonoBehaviour
         return center / _selectedHeroes.Count;
     }
 
+    public void SelectHero(HeroController hero)
+    {
+        if (hero == null || !hero.IsRecruited)
+        {
+            ClearSelection();
+            return;
+        }
+
+        HeroSelectable selectable = hero.GetComponent<HeroSelectable>();
+
+        if (selectable == null)
+        {
+            ClearSelection();
+            return;
+        }
+
+        SelectSingleHero(selectable);
+    }
+
     private void BeginSelectionInput()
     {
         _dragStartScreenPosition = Mouse.current.position.ReadValue();
@@ -122,7 +141,7 @@ public class HeroSelectionSystem : MonoBehaviour
 
         HeroSelectable hero = hit.collider.GetComponentInParent<HeroSelectable>();
 
-        if (hero == null)
+        if (hero == null || !hero.Controller.IsRecruited)
         {
             ClearSelection();
             return;
@@ -133,6 +152,12 @@ public class HeroSelectionSystem : MonoBehaviour
 
     private void SelectSingleHero(HeroSelectable hero)
     {
+        if (hero == null || hero.Controller == null || !hero.Controller.IsRecruited)
+        {
+            ClearSelection();
+            return;
+        }
+
         if (_selectedHeroes.Count == 1 && _selectedHeroes[0] == hero)
             return;
 
@@ -152,6 +177,9 @@ public class HeroSelectionSystem : MonoBehaviour
         {
             HeroSelectable hero = heroes[i];
 
+            if (hero.Controller == null || !hero.Controller.IsRecruited)
+                continue;
+
             if (!IsInHeroLayer(hero.gameObject))
                 continue;
 
@@ -170,6 +198,9 @@ public class HeroSelectionSystem : MonoBehaviour
 
     private void AddSelection(HeroSelectable hero)
     {
+        if (hero == null || hero.Controller == null || !hero.Controller.IsRecruited)
+            return;
+
         if (_selectedHeroes.Contains(hero))
             return;
 

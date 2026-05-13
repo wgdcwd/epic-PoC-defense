@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
-  m_Name: Helmet
+  m_Name: neckless
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
-  _displayName: "\uD5F7\uBA67"
-  _equipmentType: 1
-  _iconSprite: {fileID: -4548992743620234918, guid: ad5815e30058611428da31294af2ddd6, type: 3}
-  _worldSprite: {fileID: -4548992743620234918, guid: ad5815e30058611428da31294af2ddd6, type: 3}
+  _displayName: "\uBAA9\uAC78\uC774"
+  _equipmentType: 2
+  _iconSprite: {fileID: -5114587106940336450, guid: a05393b33640e20419488b9cfb1c6200, type: 3}
+  _worldSprite: {fileID: -5114587106940336450, guid: a05393b33640e20419488b9cfb1c6200, type: 3}
   _statModifier:
-    MaxHealth: 50
-    AttackPower: 0
-    Defense: 3
-    AttackRange: 10
-    AttackCooldownReduction: 0
+    MaxHealth: 0
+    AttackPower: 10
+    Defense: 0
+    AttackRange: 0
+    AttackCooldownReduction: 0.3

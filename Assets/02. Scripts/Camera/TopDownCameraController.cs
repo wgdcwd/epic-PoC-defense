@@ -9,6 +9,9 @@ public class TopDownCameraController : MonoBehaviour
     [SerializeField] private float _zoomSpeed = 2f;
     [SerializeField] private float _minOrthographicSize = 3f;
     [SerializeField] private float _maxOrthographicSize = 12f;
+    [SerializeField] private bool _useBounds = true;
+    [SerializeField] private Vector2 _minBounds = new Vector2(-20f, -12f);
+    [SerializeField] private Vector2 _maxBounds = new Vector2(20f, 12f);
     [SerializeField] private HeroSelectionSystem _selectionSystem;
 
     private Camera _camera;
@@ -29,6 +32,7 @@ public class TopDownCameraController : MonoBehaviour
         HandleFocusInput();
         HandleKeyboardMoveInput();
         MoveToFocusTarget();
+        ClampToBounds();
     }
 
     private void HandleKeyboardMoveInput()
@@ -90,6 +94,7 @@ public class TopDownCameraController : MonoBehaviour
         {
             float nextSize = _camera.orthographicSize - scroll.y * _zoomSpeed * 0.01f;
             _camera.orthographicSize = Mathf.Clamp(nextSize, _minOrthographicSize, _maxOrthographicSize);
+            ClampToBounds();
             return;
         }
 
@@ -114,5 +119,41 @@ public class TopDownCameraController : MonoBehaviour
             input.x -= 1f;
 
         return input;
+    }
+
+    private void ClampToBounds()
+    {
+        if (!_useBounds)
+            return;
+
+        Vector3 position = transform.position;
+
+        if (_camera != null && _camera.orthographic)
+        {
+            float halfHeight = _camera.orthographicSize;
+            float halfWidth = halfHeight * _camera.aspect;
+            float minX = _minBounds.x + halfWidth;
+            float maxX = _maxBounds.x - halfWidth;
+            float minY = _minBounds.y + halfHeight;
+            float maxY = _maxBounds.y - halfHeight;
+
+            position.x = ClampAxis(position.x, minX, maxX);
+            position.y = ClampAxis(position.y, minY, maxY);
+        }
+        else
+        {
+            position.x = ClampAxis(position.x, _minBounds.x, _maxBounds.x);
+            position.y = ClampAxis(position.y, _minBounds.y, _maxBounds.y);
+        }
+
+        transform.position = position;
+    }
+
+    private float ClampAxis(float value, float min, float max)
+    {
+        if (min > max)
+            return (min + max) * 0.5f;
+
+        return Mathf.Clamp(value, min, max);
     }
 }
