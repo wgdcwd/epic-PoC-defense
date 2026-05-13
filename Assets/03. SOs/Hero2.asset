@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146f0c25782b6714793abcc187930d6f, type: 3}
   m_Name: Hero2
   m_EditorClassIdentifier: Assembly-CSharp::HeroDefinition
-  _maxHealth: 100
-  _attackPower: 10
+  _maxHealth: 300
+  _attackPower: 20
   _defense: 0
-  _attackRange: 20
+  _attackRange: 5
   _attackCooldown: 0.8
-  _displayName: SwordMaster
+  _displayName: "\uC18C\uB4DC\uB9C8\uC2A4\uD130"
   _portraitSprite: {fileID: -3753825769889500098, guid: 1f371a53541591a4cb47c0d9ce8c4779, type: 3}
   _defaultAttackDefinition: {fileID: 11400000, guid: e9858e7ac4c964342a4442f8ab831b6c, type: 2}
