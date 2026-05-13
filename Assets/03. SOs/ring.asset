@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
+  m_Name: ring
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
+  _displayName: "\uBC18\uC9C0"
+  _equipmentType: 2
+  _iconSprite: {fileID: -2532087816333192471, guid: e15e1b1ffef17df448a3c6fa3004484c, type: 3}
+  _worldSprite: {fileID: -2532087816333192471, guid: e15e1b1ffef17df448a3c6fa3004484c, type: 3}
+  _statModifier:
+    MaxHealth: 5
+    AttackPower: 1
+    Defense: 1
+    AttackRange: 1
+    AttackCooldownReduction: 1

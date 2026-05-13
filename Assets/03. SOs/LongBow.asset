@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fff2da7139e64a99fcb9ffb5a1f08, type: 3}
+  m_Name: LongBow
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentDefinition
+  _displayName: "\uC7A5\uAD81"
+  _equipmentType: 0
+  _iconSprite: {fileID: -415446080585258355, guid: 1b5de85608fcbc04b95d87ed7e50b824, type: 3}
+  _worldSprite: {fileID: -415446080585258355, guid: 1b5de85608fcbc04b95d87ed7e50b824, type: 3}
+  _statModifier:
+    MaxHealth: 0
+    AttackPower: 3
+    Defense: 0
+    AttackRange: 10
+    AttackCooldownReduction: 0
