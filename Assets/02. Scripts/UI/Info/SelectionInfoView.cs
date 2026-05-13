@@ -7,11 +7,15 @@ public class SelectionInfoView : MonoBehaviour
     [SerializeField] private GameObject _root;
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _bodyText;
+    [SerializeField] private GameObject _equipmentRoot;
     [SerializeField] private Button _weaponButton;
+    [SerializeField] private Image _weaponIconImage;
     [SerializeField] private TMP_Text _weaponText;
     [SerializeField] private Button _armorButton;
+    [SerializeField] private Image _armorIconImage;
     [SerializeField] private TMP_Text _armorText;
     [SerializeField] private Button _accessoryButton;
+    [SerializeField] private Image _accessoryIconImage;
     [SerializeField] private TMP_Text _accessoryText;
     [SerializeField] private float _doubleClickSeconds = 0.3f;
 
@@ -160,6 +164,7 @@ public class SelectionInfoView : MonoBehaviour
             "Range: " + FormatFloat(stats.AttackRange) + "\n" +
             "Cooldown: " + FormatFloat(stats.AttackCooldown));
 
+        SetEquipmentRootActive(true);
         UpdateEquipmentSlots(hero.Equipment);
     }
 
@@ -186,7 +191,7 @@ public class SelectionInfoView : MonoBehaviour
             "ATK: " + FormatFloat(stats.AttackPower) + "\n" +
             "DEF: " + FormatFloat(stats.Defense));
 
-        ClearEquipmentSlots();
+        SetEquipmentRootActive(false);
     }
 
     private void RefreshEquipment(EquipmentPickup pickup)
@@ -210,7 +215,7 @@ public class SelectionInfoView : MonoBehaviour
             "Range: +" + modifier.AttackRange + "\n" +
             "Cooldown: -" + modifier.AttackCooldownReduction);
 
-        ClearEquipmentSlots();
+        SetEquipmentRootActive(false);
     }
 
     private void OnWeaponClicked()
@@ -247,24 +252,21 @@ public class SelectionInfoView : MonoBehaviour
 
     private void UpdateEquipmentSlots(HeroEquipment equipment)
     {
-        SetEquipmentSlot(_weaponText, equipment.Weapon);
-        SetEquipmentSlot(_armorText, equipment.Armor);
-        SetEquipmentSlot(_accessoryText, equipment.Accessory);
+        SetEquipmentSlot(_weaponText, _weaponIconImage, equipment.Weapon);
+        SetEquipmentSlot(_armorText, _armorIconImage, equipment.Armor);
+        SetEquipmentSlot(_accessoryText, _accessoryIconImage, equipment.Accessory);
     }
 
-    private void ClearEquipmentSlots()
+    private void SetEquipmentSlot(TMP_Text text, Image iconImage, EquipmentDefinition equipment)
     {
-        SetEquipmentSlot(_weaponText, null);
-        SetEquipmentSlot(_armorText, null);
-        SetEquipmentSlot(_accessoryText, null);
-    }
+        if (text != null)
+            text.text = equipment != null ? equipment.DisplayName : "-";
 
-    private void SetEquipmentSlot(TMP_Text text, EquipmentDefinition equipment)
-    {
-        if (text == null)
+        if (iconImage == null)
             return;
 
-        text.text = equipment != null ? equipment.DisplayName : "-";
+        iconImage.sprite = equipment != null ? equipment.IconSprite : null;
+        iconImage.enabled = equipment != null && equipment.IconSprite != null;
     }
 
     private void SetTitle(string text)
@@ -283,6 +285,24 @@ public class SelectionInfoView : MonoBehaviour
     {
         if (_root != null)
             _root.SetActive(isActive);
+    }
+
+    private void SetEquipmentRootActive(bool isActive)
+    {
+        if (_equipmentRoot != null)
+        {
+            _equipmentRoot.SetActive(isActive);
+            return;
+        }
+
+        if (_weaponButton != null)
+            _weaponButton.gameObject.SetActive(isActive);
+
+        if (_armorButton != null)
+            _armorButton.gameObject.SetActive(isActive);
+
+        if (_accessoryButton != null)
+            _accessoryButton.gameObject.SetActive(isActive);
     }
 
     private string FormatFloat(float value)

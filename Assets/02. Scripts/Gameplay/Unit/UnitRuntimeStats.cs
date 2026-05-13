@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UnitRuntimeStats : MonoBehaviour
 {
+    [SerializeField] private UnitDefinition _definition;
     [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private float _attackPower = 10f;
     [SerializeField] private float _defense = 0f;
@@ -20,6 +21,9 @@ public class UnitRuntimeStats : MonoBehaviour
 
     private void Awake()
     {
+        if (_definition != null)
+            ApplyDefinition(_definition);
+
         _currentHealth = _maxHealth;
     }
 
@@ -81,5 +85,14 @@ public class UnitRuntimeStats : MonoBehaviour
             _currentHealth = Mathf.Min(_maxHealth, _currentHealth + maxHealthDelta);
         else
             _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
+    }
+
+    private void ApplyDefinition(UnitDefinition definition)
+    {
+        _maxHealth = definition.MaxHealth;
+        _attackPower = definition.AttackPower;
+        _defense = definition.Defense;
+        _attackRange = definition.AttackRange;
+        _attackCooldown = definition.AttackCooldown;
     }
 }

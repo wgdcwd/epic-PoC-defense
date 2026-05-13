@@ -57,6 +57,12 @@ public class HeroController : MonoBehaviour
         _movement.MoveTo(destination);
     }
 
+    public void StopForInteraction()
+    {
+        _combat.ClearChaseTarget();
+        _movement.Stop();
+    }
+
     public void Stop()
     {
         _interactor.ClearTarget();

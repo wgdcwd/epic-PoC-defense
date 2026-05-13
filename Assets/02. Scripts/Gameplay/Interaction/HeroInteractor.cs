@@ -34,8 +34,10 @@ public class HeroInteractor : MonoBehaviour
             return;
         }
 
-        _hero.Stop();
-        _targetInteractable.Interact(_hero);
+        IHeroInteractable interactable = _targetInteractable;
+
+        _hero.StopForInteraction();
+        interactable.Interact(_hero);
         ClearTarget();
     }
 

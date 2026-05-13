@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System;
 
 public class HeroSelectionSystem : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class HeroSelectionSystem : MonoBehaviour
     public IReadOnlyList<HeroSelectable> SelectedHeroes => _selectedHeroes;
     public HeroSelectable SelectedHero => _selectedHeroes.Count > 0 ? _selectedHeroes[0] : null;
     public bool HasSelection => _selectedHeroes.Count > 0;
+
+    public event Action<HeroSelectable> HeroSelected;
+    public event Action SelectionCleared;
+    public event Action<Rect, Vector2, bool> DragSelectionCompleted;
 
     private void Awake()
     {
@@ -47,6 +52,7 @@ public class HeroSelectionSystem : MonoBehaviour
             _selectedHeroes[i].SetSelected(false);
 
         _selectedHeroes.Clear();
+        SelectionCleared?.Invoke();
     }
 
     public Vector2 GetSelectionCenter()
@@ -132,6 +138,7 @@ public class HeroSelectionSystem : MonoBehaviour
 
         ClearSelection();
         AddSelection(hero);
+        HeroSelected?.Invoke(hero);
     }
 
     private void SelectHeroesInDragRect()
@@ -152,6 +159,13 @@ public class HeroSelectionSystem : MonoBehaviour
             if (selectionRect.Contains(screenPosition))
                 AddSelection(hero);
         }
+
+        HeroSelectable representativeHero = GetRepresentativeSelectedHero(selectionRect);
+
+        if (representativeHero != null)
+            HeroSelected?.Invoke(representativeHero);
+
+        DragSelectionCompleted?.Invoke(selectionRect, _dragStartScreenPosition, representativeHero != null);
     }
 
     private void AddSelection(HeroSelectable hero)
@@ -161,6 +175,36 @@ public class HeroSelectionSystem : MonoBehaviour
 
         _selectedHeroes.Add(hero);
         hero.SetSelected(true);
+    }
+
+    private HeroSelectable GetRepresentativeSelectedHero(Rect selectionRect)
+    {
+        HeroSelectable representativeHero = null;
+        float nearestDistance = float.MaxValue;
+        Vector2 dragStartPosition = _dragStartScreenPosition;
+
+        for (int i = 0; i < _selectedHeroes.Count; i++)
+        {
+            HeroSelectable hero = _selectedHeroes[i];
+
+            if (hero == null)
+                continue;
+
+            Vector3 screenPosition = _mainCamera.WorldToScreenPoint(hero.transform.position);
+
+            if (!selectionRect.Contains(screenPosition))
+                continue;
+
+            float distance = ((Vector2)screenPosition - dragStartPosition).sqrMagnitude;
+
+            if (distance >= nearestDistance)
+                continue;
+
+            nearestDistance = distance;
+            representativeHero = hero;
+        }
+
+        return representativeHero;
     }
 
     private bool IsInHeroLayer(GameObject target)
