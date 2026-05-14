@@ -82,6 +82,11 @@ public class UnitRuntimeStats : MonoBehaviour
         _currentHealth = Mathf.Min(_maxHealth, _currentHealth + amount);
     }
 
+    public void RestoreHealthToFull()
+    {
+        _currentHealth = _maxHealth;
+    }
+
     private void ApplyStatModifier(EquipmentStatModifier modifier, float sign)
     {
         float maxHealthDelta = modifier.MaxHealth * sign;

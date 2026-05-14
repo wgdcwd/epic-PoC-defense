@@ -15,7 +15,7 @@ MonoBehaviour:
   _displayName: Sniper
   _rangeMultiplier: 2
   _cooldownMultiplier: 2
-  _damageMultiplier: 3
+  _damageMultiplier: 5
   _projectilePrefab: {fileID: 0}
   _fallbackProjectileSprite: {fileID: 0}
   _projectileSpeed: 20

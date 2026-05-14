@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hero1
   m_EditorClassIdentifier: Assembly-CSharp::HeroDefinition
   _maxHealth: 100
-  _attackPower: 5
+  _attackPower: 25
   _defense: 0
   _attackRange: 15
   _attackCooldown: 0.5
